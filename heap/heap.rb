@@ -3,111 +3,111 @@
 # Feb 2012
 
 class Heap
-	attr_reader :heap_list
+  attr_reader :heap_list
 
-	def initialize params
+  def initialize params
     @heap_list = []
   
-		if (params[:list] != nil)
+    if (params[:list] != nil)
 
-			if params[:better_build]
-				better_build params[:list]
-			else
-				a = params[:list]
-				a.each do |i|
+      if params[:better_build]
+        better_build params[:list]
+      else
+        a = params[:list]
+        a.each do |i|
           insert i
-				end
-			end
-		end
-	end
+        end
+      end
+    end
+  end
 
 
 
-	def insert x
-		@heap_list << x
-		swap_parent(@heap_list.length - 1)
-	end
+  def insert x
+    @heap_list << x
+    swap_parent(@heap_list.length - 1)
+  end
 
 
-	def sort!
-		a = []
-		for i in (0..@heap_list.length - 1)
-			a << extract_max!
-		end
+  def sort!
+    a = []
+    for i in (0..@heap_list.length - 1)
+      a << extract_max!
+    end
 
-		return a
-	end
+    return a
+  end
 
-	def get_max
-		@heap_list[0]
-	end
-
-
-
-	def increase_key list, index, value
-		return if list[index] >= value
-		# Continue
-	end
-
-	# ===== Private ===== #
-	private
-	def extract_max!
-		ret_largest = @heap_list.shift
-
-		last = @heap_list.pop
-		@heap_list.insert(0, last)
-
-		# Fix the heap property
-		heapify 0
-
-		ret_largest
-
-	end
-
-	def better_build array
-		@heap_list = array
-		for i in (((@heap_list.length / 2) - 1).downto 0)
-			heapify i
-		end
-	end
-
-	def heapify index
-		left = (index * 2) + 1
-		right = (index * 2) + 2
-		largest = nil
-
-		a = @heap_list
-
-		if left <= (a.length - 1) && a[left] > a[index]
-			largest = left
-		else
-			largest = index
-		end
-
-		if right <= (a.length - 1) && a[right] > a[largest]
-			largest = right
-		end
-
-		if largest != index
-			a[index], a[largest] = a[largest], a[index]
-			heapify(largest)
-		end
+  def get_max
+    @heap_list[0]
+  end
 
 
 
+  def increase_key list, index, value
+    return if list[index] >= value
+    # Continue
+  end
 
-	end
+  # ===== Private ===== #
+  private
+  def extract_max!
+    ret_largest = @heap_list.shift
 
-	def swap_parent i
-		a = @heap_list
-		if (a[i] > a[i/2])
+    last = @heap_list.pop
+    @heap_list.insert(0, last)
 
-			a[i], a[i/2] = a[i/2], a[i]
+    # Fix the heap property
+    heapify 0
 
-			# Keep going if we need to
-			swap_parent((i/2))
-		end
-	end
+    ret_largest
+
+  end
+
+  def better_build array
+    @heap_list = array
+    for i in (((@heap_list.length / 2) - 1).downto 0)
+      heapify i
+    end
+  end
+
+  def heapify index
+    left = (index * 2) + 1
+    right = (index * 2) + 2
+    largest = nil
+
+    a = @heap_list
+
+    if left <= (a.length - 1) && a[left] > a[index]
+      largest = left
+    else
+      largest = index
+    end
+
+    if right <= (a.length - 1) && a[right] > a[largest]
+      largest = right
+    end
+
+    if largest != index
+      a[index], a[largest] = a[largest], a[index]
+      heapify(largest)
+    end
+
+
+
+
+  end
+
+  def swap_parent i
+    a = @heap_list
+    if (a[i] > a[i/2])
+
+      a[i], a[i/2] = a[i/2], a[i]
+
+      # Keep going if we need to
+      swap_parent((i/2))
+    end
+  end
 
 
 end
